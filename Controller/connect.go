@@ -9,7 +9,7 @@ import (
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
-var server = "XXX.XXX.XX.XXX"
+var server = "192.168.15.202"
 var port = 1433
 var user = "sa"
 var password = "p@ssw0rd"

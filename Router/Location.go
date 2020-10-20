@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kriangkrai/SQL/Controller"
-	"github.com/kriangkrai/SQL/Models"
+	"github.com/kriangkrai/SQL/RUNSQL/Controller"
+	"github.com/kriangkrai/SQL/RUNSQL/Models"
 )
 
 func GetLocation(c *gin.Context) {

@@ -6,7 +6,7 @@ import (
 	"log"
 
 	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/kriangkrai/SQL/Models"
+	"github.com/kriangkrai/SQL/RUNSQL/Models"
 )
 
 func GetLocation() []Models.Location {

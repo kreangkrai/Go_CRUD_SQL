@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/kriangkrai/SQL/Models"
+	"github.com/kriangkrai/SQL/RUNSQL/Models"
 )
 
 func GetData() []Models.Data {
