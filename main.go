@@ -6,7 +6,7 @@ import (
 
 func main() {
 
-	r := Router.SetupRouter()
-	r.Run()
+	r, port := Router.SetupRouter()
+	r.Run(":" + port)
 
 }

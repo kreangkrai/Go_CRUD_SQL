@@ -1,47 +1,123 @@
 package Test
 
 import (
-	"fmt"
+	"encoding/json"
+	"io/ioutil"
+	"net/http/httptest"
+	"strings"
 
-	"github.com/kriangkrai/SQL/RUNSQL/Controller"
+	"github.com/go-playground/assert/v2"
+	"github.com/kriangkrai/SQL/RUNSQL/Models"
 	"github.com/kriangkrai/SQL/RUNSQL/Router"
 
 	"testing"
 )
 
-// func TestGetData(t *testing.T) {
+func TestGetLocation(t *testing.T) {
 
-// 	Controller.Connect()
-// 	r := Router.SetupRouter()
+	r, _ := Router.SetupRouter()
 
-// 	w := httptest.NewRecorder()
-// 	req, _ := http.NewRequest("GET", "/user/get", nil)
-// 	r.ServeHTTP(w, req)
+	//Get
+	req := httptest.NewRequest("GET", "/location/get", nil)
+	res := httptest.NewRecorder()
 
-// 	assert.Equal(t, http.StatusOK, w.Code)
-// 	assert.NotNil(t, w.Body)
-// }
+	r.ServeHTTP(res, req)
+	response := res.Result()
+	body, _ := ioutil.ReadAll(response.Body)
+	result := []Models.Location{}
 
-func TestDatas(t *testing.T) {
-
-	r := Router.SetupRouter()
-
-	fmt.Println(r)
-	data := Controller.GetData()
-
-	var datas = data[0].Device
-
-	if datas != "Sensor4" {
-		t.Errorf("%s", datas)
+	err := json.Unmarshal(body, &result)
+	if err != nil {
+		panic(err)
+	}
+	expect := Models.Location{
+		ID:       9,
+		Name:     "XXX",
+		Location: "HQ",
 	}
 
-	//r := Router.SetupRouter()
+	assert.Equal(t, expect, result[0])
 
-	//w := httptest.NewRecorder()
-	//req, _ := http.NewRequest("GET", "/user/get", nil)
+}
+func TestAddLocation(t *testing.T) {
 
-	//r.ServeHTTP(w, req)
+	r, _ := Router.SetupRouter()
+	//Add
 
-	//assert.Equal(t, http.StatusOK, w.Code)
-	//assert.NotNil(t, w.Body)
+	data := `{
+				"Name" : "XXX",
+				"Location" : "HQ"
+			}`
+
+	req := httptest.NewRequest("POST", "/location/insert", strings.NewReader(data))
+	res := httptest.NewRecorder()
+
+	r.ServeHTTP(res, req)
+	response := res.Result()
+	body, _ := ioutil.ReadAll(response.Body)
+	result := Models.Location{}
+
+	err := json.Unmarshal(body, &result)
+	if err != nil {
+		panic(err)
+	}
+	expect := Models.Location{
+		Name:     "XXX",
+		Location: "HQ",
+	}
+
+	assert.Equal(t, expect, result)
+
+}
+
+func TestUpdateLocation(t *testing.T) {
+
+	r, _ := Router.SetupRouter()
+
+	//Update
+
+	data := `{
+				"ID" : 2,
+				"Name" : "Mee",
+				"Location" : "HQ"
+			}`
+
+	req := httptest.NewRequest("PUT", "/location/update", strings.NewReader(data))
+	res := httptest.NewRecorder()
+
+	r.ServeHTTP(res, req)
+	response := res.Result()
+	body, _ := ioutil.ReadAll(response.Body)
+	var result string
+
+	err := json.Unmarshal(body, &result)
+	if err != nil {
+		panic(err)
+	}
+	expect := "Update Success"
+
+	assert.Equal(t, expect, result)
+
+}
+func TestDeleteLocation(t *testing.T) {
+
+	r, _ := Router.SetupRouter()
+	//Delete
+
+	req := httptest.NewRequest("DELETE", "/location/delete/2", nil)
+	res := httptest.NewRecorder()
+
+	r.ServeHTTP(res, req)
+	response := res.Result()
+	body, _ := ioutil.ReadAll(response.Body)
+	var result string
+
+	err := json.Unmarshal(body, &result)
+	if err != nil {
+		panic(err)
+	}
+	expect := "Delete Success"
+
+	assert.Equal(t, expect, result)
+
 }

@@ -11,14 +11,16 @@ import (
 
 func Insert(c *gin.Context) {
 	var input Models.Data
-	e := c.BindJSON(&input)
+	e := c.ShouldBindJSON(&input)
 	if e != nil {
 		fmt.Println(e)
 	}
-	insert := Controller.Insert(input)
-	c.JSON(200, gin.H{
-		"Message": insert,
-	})
+	_ = Controller.Insert(input)
+	// c.JSON(200, gin.H{
+	// 	"Message": insert,
+	// })
+
+	c.JSON(200, input)
 }
 
 func Get(c *gin.Context) {
@@ -34,10 +36,12 @@ func Update(c *gin.Context) {
 	if e != nil {
 		fmt.Println(e)
 	}
-	update := Controller.Update(input)
-	c.JSON(200, gin.H{
-		"Message": update,
-	})
+	_ = Controller.Update(input)
+	// c.JSON(200, gin.H{
+	// 	"Message": update,
+	// })
+
+	c.JSON(200, input)
 }
 
 func Delete(c *gin.Context) {

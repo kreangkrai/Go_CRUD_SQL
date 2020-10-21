@@ -7,7 +7,7 @@ import (
 	"github.com/kriangkrai/SQL/RUNSQL/Controller"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter() (*gin.Engine, string) {
 	Controller.Connect()
 	r := gin.Default()
 	userRoute := r.Group("/user")
@@ -32,7 +32,7 @@ func SetupRouter() *gin.Engine {
 	if os.Getenv("ASPNETCORE_PORT") != "" { // get enviroment variable that set by ACNM
 		port = os.Getenv("ASPNETCORE_PORT")
 	}
-	r.Run(":" + port)
+	//r.Run(":" + port)
 
-	return r
+	return r, port
 }
